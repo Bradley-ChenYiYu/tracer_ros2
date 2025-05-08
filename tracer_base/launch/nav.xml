@@ -1,0 +1,19 @@
+<launch>
+    <include file="$(find-pkg-share nav2_bringup)/launch/navigation_launch.py"/>
+    <include file="$(find-pkg-share rtabmap_launch)/launch/rtabmap.launch.py">
+	    <arg name="odom_frame_id" value="odom"/>
+	    <arg name="approx_sync" value="true"/>
+	    <arg name="rgb_topic" value="/camera/camera/color/image_raw"/>
+	    <arg name="depth_topic" value="/camera/camera/aligned_depth_to_color/image_raw"/>
+	    <arg name="camera_info_topic" value="/camera/camera/color/camera_info"/>
+    	    <arg name="subscribe_scan" value="true"/>
+	    <arg name="visual_odometry" value="false"/>
+	    <arg name="odom_topic" value="/odom"/>
+	    <arg name="rviz" value="true"/>
+	    <arg name="localization" value="true"/>
+	    <arg name="database_path" value="/home/robotics/ros2_ws/Map/rtabmap.db"/>
+   </include>
+	<node pkg="rtabmap_slam" exec="rtabmap" name="rtabmap" namespace="rtabmap">
+	    <remap from="/rtabmap/grid_prob_map" to="/map"/>
+	</node>
+</launch>

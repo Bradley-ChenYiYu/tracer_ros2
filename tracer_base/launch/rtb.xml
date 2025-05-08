@@ -1,0 +1,23 @@
+<launch>
+  <include file="$(find-pkg-share rtabmap_launch)/launch/rtabmap.launch.py">
+    <arg name="odom_frame_id" value="odom"/>
+    <arg name="approx_sync" value="true"/>
+    <arg name="rgb_topic" value="/camera/camera/color/image_raw"/>
+    <arg name="depth_topic" value="/camera/camera/aligned_depth_to_color/image_raw"/>
+    <arg name="camera_info_topic" value="/camera/camera/color/camera_info"/>
+    <arg name="subscribe_scan" value="true"/>
+    <arg name="subscribe_scan_cloud" value="true"/>
+    <arg name="visual_odometry" value="false"/>
+    <arg name="odom_topic" value="/odom"/>
+    <arg name="rtabmap_args" value="-d"/>
+    <arg name="rtabmap_viz" value="false"/>
+    <arg name="rviz" value="true"/>
+    <!-- <arg name="scan_topic" value="/velodyne_points"/> -->
+    <arg name="scan_cloud_topic" value="/velodyne_points"/>
+    <arg name="queue_size" value="10"/>
+    <arg name="sync_queue_size" value="20"/>
+    <arg name="topic_queue_size" value="5"/>
+    <arg name="wait_imu_to_init" value="true"/>
+    <arg name="imu_topic" value="/camera/camera/imu"/>
+  </include>
+</launch>
