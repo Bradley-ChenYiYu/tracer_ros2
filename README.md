@@ -77,3 +77,23 @@ This repository contains minimal packages to control the tracer robot using ROS.
 **SAFETY PRECAUSION**: 
 
 Always have your remote controller ready to take over the control whenever necessary. 
+
+## Use xbox 360 controller as teleoperation method  
+
+Install the driver:  
+
+```bash
+sudo apt install -y xboxdrv
+```
+
+Run the driver:  
+
+```bash
+sudo xboxdrv
+```
+
+Launch the ROS2 teleop nodes:  
+
+```bash
+ros2 launch tracer_base teleop-launch.py
+```
