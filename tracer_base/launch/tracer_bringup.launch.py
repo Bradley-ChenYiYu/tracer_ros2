@@ -12,14 +12,23 @@ Usage:
 import os
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
+from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
 
 
 def generate_launch_description():
 	# Locate this package's share directory and the tracer_base launch file
 	pkg_tracer = get_package_share_directory('tracer_base')
+	rviz_config = os.path.join(pkg_tracer, 'config', 'image.rviz')
+	launch_rviz_arg = DeclareLaunchArgument(
+		'rviz',
+		default_value='true',
+		description='Launch RViz2 with the tracer_base image config',
+	)
 	tracer_launch = IncludeLaunchDescription(
 		PythonLaunchDescriptionSource(
 			os.path.join(pkg_tracer, 'launch', 'tracer_base.launch.py')
@@ -91,11 +100,20 @@ def generate_launch_description():
 		}.items(),
 	)
 
+	rviz_launch = Node(
+		package='rviz2',
+		executable='rviz2',
+		arguments=['-d', rviz_config],
+		output='screen',
+		condition=IfCondition(LaunchConfiguration('rviz')),
+	)
 	ld = LaunchDescription()
+	ld.add_action(launch_rviz_arg)
 	ld.add_action(tracer_launch)
 	ld.add_action(front_rs_launch)
 	ld.add_action(left_rs_launch)
 	ld.add_action(right_rs_launch)
 
+	ld.add_action(rviz_launch)
 	return ld
 
