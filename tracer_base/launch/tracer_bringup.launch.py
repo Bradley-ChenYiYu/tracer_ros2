@@ -27,12 +27,56 @@ def generate_launch_description():
 	)
 
 	# Locate realsense2_camera package and include its rs_launch.py with args
+	# 	The ID of the USB hub port start from the output side of the hub,
+	# 	start from *.1.1, *.1.2, and so on. You can use `lsusb -t` to check the port ID of each camera.
 	pkg_realsense = get_package_share_directory('realsense2_camera')
-	rs_launch = IncludeLaunchDescription(
+	front_rs_launch = IncludeLaunchDescription(
 		PythonLaunchDescriptionSource(
 			os.path.join(pkg_realsense, 'launch', 'rs_launch.py')
 		),
 		launch_arguments={
+			'camera_name': 'front',
+			'usb_port_id': '4-6.1.1',
+			'enable_color': 'true',
+			'enable_depth': 'false',
+			'enable_infra': 'false',
+			'enable_infra1': 'false',
+			'enable_infra2': 'false',
+			'enable_gyro': 'false',
+			'enable_accel': 'false',
+			'enable_motion': 'false',
+			'pointcloud.enable': 'false',
+			'align_depth.enable': 'false',
+			'rgb_camera.color_profile': '320x240x60',
+		}.items(),
+	)
+	left_rs_launch = IncludeLaunchDescription(
+		PythonLaunchDescriptionSource(
+			os.path.join(pkg_realsense, 'launch', 'rs_launch.py')
+		),
+		launch_arguments={
+			'camera_name': 'left',
+			'usb_port_id': '4-6.1.2',
+			'enable_color': 'true',
+			'enable_depth': 'false',
+			'enable_infra': 'false',
+			'enable_infra1': 'false',
+			'enable_infra2': 'false',
+			'enable_gyro': 'false',
+			'enable_accel': 'false',
+			'enable_motion': 'false',
+			'pointcloud.enable': 'false',
+			'align_depth.enable': 'false',
+			'rgb_camera.color_profile': '320x240x60',
+		}.items(),
+	)
+	right_rs_launch = IncludeLaunchDescription(
+		PythonLaunchDescriptionSource(
+			os.path.join(pkg_realsense, 'launch', 'rs_launch.py')
+		),
+		launch_arguments={
+			'camera_name': 'right',
+			'usb_port_id': '4-6.1.3',
 			'enable_color': 'true',
 			'enable_depth': 'false',
 			'enable_infra': 'false',
@@ -49,7 +93,9 @@ def generate_launch_description():
 
 	ld = LaunchDescription()
 	ld.add_action(tracer_launch)
-	ld.add_action(rs_launch)
+	ld.add_action(front_rs_launch)
+	ld.add_action(left_rs_launch)
+	ld.add_action(right_rs_launch)
 
 	return ld
 
