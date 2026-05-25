@@ -131,7 +131,7 @@ def generate_launch_description():
 	ld.add_action(launch_front_cam_arg)
 	ld.add_action(launch_left_cam_arg)
 	ld.add_action(launch_right_cam_arg)
-	# ld.add_action(tracer_launch)
+	ld.add_action(tracer_launch)
 	ld.add_action(front_rs_launch)
 	ld.add_action(left_rs_launch)
 	ld.add_action(right_rs_launch)
