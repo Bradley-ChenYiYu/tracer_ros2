@@ -29,6 +29,22 @@ def generate_launch_description():
 		default_value='true',
 		description='Launch RViz2 with the tracer_base image config',
 	)
+	launch_front_cam_arg = DeclareLaunchArgument(
+		'enable_front_cam',
+		default_value='true',
+		description='Whether to launch the front camera RealSense node.',
+	)
+	launch_right_cam_arg = DeclareLaunchArgument(
+		'enable_right_cam',
+		default_value='true',
+		description='Whether to launch the right camera RealSense node.',
+	)
+	launch_left_cam_arg = DeclareLaunchArgument(
+		'enable_left_cam',
+		default_value='true',
+		description='Whether to launch the left camera RealSense node.',
+	)
+
 	tracer_launch = IncludeLaunchDescription(
 		PythonLaunchDescriptionSource(
 			os.path.join(pkg_tracer, 'launch', 'tracer_base.launch.py')
@@ -58,6 +74,7 @@ def generate_launch_description():
 			'align_depth.enable': 'false',
 			'rgb_camera.color_profile': '320x240x60',
 		}.items(),
+		condition=IfCondition(LaunchConfiguration('enable_front_cam')),
 	)
 	left_rs_launch = IncludeLaunchDescription(
 		PythonLaunchDescriptionSource(
@@ -78,6 +95,7 @@ def generate_launch_description():
 			'align_depth.enable': 'false',
 			'rgb_camera.color_profile': '320x240x60',
 		}.items(),
+		condition=IfCondition(LaunchConfiguration('enable_left_cam')),
 	)
 	right_rs_launch = IncludeLaunchDescription(
 		PythonLaunchDescriptionSource(
@@ -98,6 +116,7 @@ def generate_launch_description():
 			'align_depth.enable': 'false',
 			'rgb_camera.color_profile': '320x240x60',
 		}.items(),
+		condition=IfCondition(LaunchConfiguration('enable_right_cam')),
 	)
 
 	rviz_launch = Node(
@@ -109,7 +128,10 @@ def generate_launch_description():
 	)
 	ld = LaunchDescription()
 	ld.add_action(launch_rviz_arg)
-	ld.add_action(tracer_launch)
+	ld.add_action(launch_front_cam_arg)
+	ld.add_action(launch_left_cam_arg)
+	ld.add_action(launch_right_cam_arg)
+	# ld.add_action(tracer_launch)
 	ld.add_action(front_rs_launch)
 	ld.add_action(left_rs_launch)
 	ld.add_action(right_rs_launch)
