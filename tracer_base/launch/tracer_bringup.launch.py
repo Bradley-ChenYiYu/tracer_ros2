@@ -82,7 +82,7 @@ def generate_launch_description():
 		),
 		launch_arguments={
 			'camera_name': 'left',
-			'usb_port_id': '4-6.1.2',
+			'usb_port_id': '4-6.1.3',
 			'enable_color': 'true',
 			'enable_depth': 'false',
 			'enable_infra': 'false',
@@ -103,7 +103,7 @@ def generate_launch_description():
 		),
 		launch_arguments={
 			'camera_name': 'right',
-			'usb_port_id': '4-6.1.3',
+			'usb_port_id': '4-6.1.2',
 			'enable_color': 'true',
 			'enable_depth': 'false',
 			'enable_infra': 'false',
