@@ -35,7 +35,7 @@ def generate_launch_description():
             package='joy', executable='joy_node', name='joy_node',
             parameters=[{
                 'device_id': joy_dev,
-                'deadzone': 0.1,
+                'deadzone': 0.01,
                 'autorepeat_rate': 20.0,
             }, config_filepath]),
         launch_ros.actions.Node(
