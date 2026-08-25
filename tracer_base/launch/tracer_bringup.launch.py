@@ -61,7 +61,7 @@ def generate_launch_description():
 		),
 		launch_arguments={
 			'camera_name': 'front',
-			'usb_port_id': '4-6.1.1',
+			'usb_port_id': '4-2.1.1',
 			'enable_color': 'true',
 			'enable_depth': 'false',
 			'enable_infra': 'false',
@@ -126,6 +126,15 @@ def generate_launch_description():
 		output='screen',
 		condition=IfCondition(LaunchConfiguration('rviz')),
 	)
+
+	# Static transform: base_link → camera_link
+	baselink_to_front_camera = Node(
+		package='tf2_ros',
+		executable='static_transform_publisher',
+		name='baselink_to_front_camera',
+		arguments=['0.25', '0', '0.69', '0', '0', '0', 'base_link', 'front_link'],
+	)
+
 	ld = LaunchDescription()
 	ld.add_action(launch_rviz_arg)
 	ld.add_action(launch_front_cam_arg)
@@ -136,6 +145,6 @@ def generate_launch_description():
 	ld.add_action(left_rs_launch)
 	ld.add_action(right_rs_launch)
 
+	ld.add_action(baselink_to_front_camera)
 	ld.add_action(rviz_launch)
 	return ld
-
